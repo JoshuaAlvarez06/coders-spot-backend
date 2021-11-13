@@ -1,23 +1,23 @@
-const knex = require("../db/connection");
+const knex = require('../db/connection');
 
 const list = () => {
-  return knex("posts as p").select("*");
+  return knex('posts as p').select('*');
 };
 
 const read = (post_id) => {
-  return knex("posts as p").select("*").where({ post_id }).first();
+  return knex('posts as p').select('*').where({ post_id }).first();
 };
 
 const readPostComments = (post_id) => {
-  return knex("comments as c")
-    .join("users as u", "c.user_id", "u.user_id")
+  return knex('comments as c')
+    .join('users as u', 'c.user_id', 'u.id')
     .select(
-      "c.comment_id",
-      "c.comment_content",
-      "c.created_at",
-      "u.first_name",
-      "u.last_name",
-      "u.username"
+      'c.comment_id',
+      'c.comment_content',
+      'c.created_at',
+      'u.first_name',
+      'u.last_name',
+      'u.username'
     )
     .where({ post_id })
     .then((response) => {
@@ -28,7 +28,7 @@ const readPostComments = (post_id) => {
 };
 
 const create = (newPost) => {
-  return knex("posts").insert(newPost);
+  return knex('posts').insert(newPost);
 };
 
 module.exports = {
