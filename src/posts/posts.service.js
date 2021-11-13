@@ -10,16 +10,9 @@ const read = (post_id) => {
 
 const readPostComments = (post_id) => {
   return knex('comments as c')
-    .join('users as u', 'c.user_id', 'u.id')
-    .select(
-      'c.comment_id',
-      'c.comment_content',
-      'c.created_at',
-      'u.first_name',
-      'u.last_name',
-      'u.username'
-    )
-    .where({ post_id })
+    .join('posts as p', 'c.post_id', 'p.post_id')
+    .select('*')
+    .where({ 'c.post_id': post_id })
     .then((response) => {
       if (response.length) {
         response;
@@ -29,6 +22,10 @@ const readPostComments = (post_id) => {
 
 const create = (newPost) => {
   return knex('posts').insert(newPost);
+};
+
+const createComment = (newComment) => {
+  return knex('comments as c').insert(newComment).where({ c });
 };
 
 module.exports = {

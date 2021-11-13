@@ -1,12 +1,12 @@
-const service = require("./posts.service");
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const service = require('./posts.service');
+const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 
 const postExists = async (req, res, next) => {
   const { postId } = req.params;
   let foundPost;
   let errorStatus;
   //Conditionals to determine which service function is going to be used
-  if (req.originalUrl.includes("comments")) {
+  if (req.originalUrl.includes('comments')) {
     foundPost = await service.readPostComments(postId);
     errorStatus = `Post with ID ${postId} does not exist or there are no comments for the post.`;
   } else {
@@ -23,7 +23,7 @@ const postExists = async (req, res, next) => {
   });
 };
 
-const VALID_PROPERTIES = ["post_title", "post_content", "user_id"];
+const VALID_PROPERTIES = ['post_title', 'post_content', 'user_id'];
 
 const validBodyProperties = (req, res, next) => {
   const { data = {} } = req.body;
@@ -33,7 +33,7 @@ const validBodyProperties = (req, res, next) => {
   if (invalidProperties.length) {
     return next({
       status: 400,
-      message: `Invalid field(s): ${invalidProperties.join(" ")}`,
+      message: `Invalid field(s): ${invalidProperties.join(' ')}`,
     });
   }
   next();
@@ -53,6 +53,14 @@ const create = async (req, res) => {
     ...req.body.data,
   };
   const data = await service.create(newPost);
+  res.status(201).json({ data });
+};
+
+const createComment = async (req, res) => {
+  const newComment = {
+    ...req.body.date,
+  };
+  const data = await service.createComment(newComment);
   res.status(201).json({ data });
 };
 
