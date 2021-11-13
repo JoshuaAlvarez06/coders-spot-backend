@@ -12,7 +12,7 @@ const readPostComments = (post_id) => {
   return knex('comments as c')
     .join('posts as p', 'c.post_id', 'p.post_id')
     .select('*')
-    .where({ 'c.post_id': post_id })
+    .where({ post_id: post_id })
     .then((response) => {
       if (response.length) {
         response;
