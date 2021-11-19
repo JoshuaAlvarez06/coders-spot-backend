@@ -23,9 +23,19 @@ const createComment = (newComment) => {
   return knex('comments as c').insert(newComment).where({ c });
 };
 
+const destroy = (postId) => {
+  return knex('posts').where({ post_id: postId }).del();
+};
+
+const update = (updatedPost, postId) => {
+  return knex('posts').where({ post_id: postId }).update(updatedPost);
+};
+
 module.exports = {
   list,
   read,
   readPostComments,
   create,
+  destroy,
+  update,
 };

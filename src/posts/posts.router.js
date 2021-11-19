@@ -8,7 +8,12 @@ router
   .post(controller.create)
   .all(methodNotAllowed);
 
-router.route('/:postId').get(controller.read).all(methodNotAllowed);
+router
+  .route('/:postId')
+  .get(controller.read)
+  .put(controller.update)
+  .delete(controller.destroy)
+  .all(methodNotAllowed);
 
 router
   .route('/:postId/comments')

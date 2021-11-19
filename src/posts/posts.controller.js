@@ -23,7 +23,7 @@ const postExists = async (req, res, next) => {
   });
 };
 
-const VALID_PROPERTIES = ['post_title', 'post_content', 'user_id'];
+const VALID_PROPERTIES = ['post_title', 'post_content'];
 
 const validBodyProperties = (req, res, next) => {
   const { data = {} } = req.body;
@@ -64,8 +64,27 @@ const createComment = async (req, res) => {
   res.status(201).json({ data });
 };
 
+const destroy = async (req, res) => {
+  const { postId } = req.params;
+  await service.destroy(postId);
+  res.sendStatus(204);
+};
+
+const update = async (req, res) => {
+  const updatedPost = req.body.data;
+  const { postId } = req.params;
+  const data = await service.update(updatedPost, postId);
+  res.json({ data });
+};
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   read: [asyncErrorBoundary(postExists), read],
   create: [validBodyProperties, asyncErrorBoundary(create)],
+  destroy: asyncErrorBoundary(destroy),
+  update: [
+    asyncErrorBoundary(postExists),
+    validBodyProperties,
+    asyncErrorBoundary(update),
+  ],
 };
