@@ -23,7 +23,7 @@ const postExists = async (req, res, next) => {
   });
 };
 
-const VALID_PROPERTIES = ['post_title', 'post_content'];
+const VALID_PROPERTIES = ['post_title', 'post_content', 'user_id'];
 
 const validBodyProperties = (req, res, next) => {
   const { data = {} } = req.body;
