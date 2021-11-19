@@ -1,11 +1,11 @@
-const service = require("./users.service");
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const hasProperties = require("../utils/hasProperties");
+const service = require('./users.service');
+const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
+const hasProperties = require('../utils/hasProperties');
 const hasRequiredProperties = hasProperties(
-  "username",
-  "first_name",
-  "last_name",
-  "email"
+  'username',
+  'first_name',
+  'last_name',
+  'email'
 );
 
 const userExists = async (req, res, next) => {
@@ -13,10 +13,11 @@ const userExists = async (req, res, next) => {
   let foundUser;
   let errorStatus;
   //Conditionals to determine which service function is going to be used
-  if (req.originalUrl.includes("posts")) {
+  if (req.originalUrl.includes('posts')) {
+    console.log(await service.readUsersPosts(userId));
     foundUser = await service.readUsersPosts(userId);
     errorStatus = `User with ID ${userId} does not exist or there are no posts by the user.`;
-  } else if (req.originalUrl.includes("comments")) {
+  } else if (req.originalUrl.includes('comments')) {
     foundUser = await service.readUsersComments(userId);
     errorStatus = `User with ID ${userId} does not exist or there are no comments by the user.`;
   } else {
@@ -46,7 +47,7 @@ const userExistsByEmail = async (req, res, next) => {
   });
 };
 
-const VALID_PROPERTIES = ["username", "first_name", "last_name", "email"];
+const VALID_PROPERTIES = ['username', 'first_name', 'last_name', 'email'];
 
 const validBodyProperties = (req, res, next) => {
   const { data = {} } = req.body;
@@ -56,7 +57,7 @@ const validBodyProperties = (req, res, next) => {
   if (invalidProperties.length) {
     return next({
       status: 400,
-      message: `Invalid field(s): ${invalidProperties.join(" ")}`,
+      message: `Invalid field(s): ${invalidProperties.join(' ')}`,
     });
   }
   next();
@@ -81,7 +82,7 @@ const create = async (req, res, next) => {
   };
   await service.userExists(newUser.email).then(async (data) => {
     if (data.length > 0) {
-      res.status(201).json("User Already Exists.");
+      res.status(201).json('User Already Exists.');
     }
   });
   await service
