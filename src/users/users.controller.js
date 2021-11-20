@@ -14,7 +14,6 @@ const userExists = async (req, res, next) => {
   let errorStatus;
   //Conditionals to determine which service function is going to be used
   if (req.originalUrl.includes('posts')) {
-    console.log(await service.readUsersPosts(userId));
     foundUser = await service.readUsersPosts(userId);
     errorStatus = `User with ID ${userId} does not exist or there are no posts by the user.`;
   } else if (req.originalUrl.includes('comments')) {

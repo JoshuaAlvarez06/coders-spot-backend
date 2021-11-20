@@ -5,14 +5,17 @@ const list = () => {
 };
 
 const read = (post_id) => {
-  return knex('posts as p').select('*').where({ post_id }).first();
+  return knex('posts as p').where({ post_id }).first();
 };
 
 const readPostComments = (post_id) => {
   return knex('comments as c')
-    .join('posts as p', 'c.post_id', 'p.post_id')
-    .select('*')
-    .where({ 'c.post_id': post_id });
+    .join('users as u', 'c.user_id', 'u.id')
+    .where({ post_id: post_id });
+};
+
+const readComment = (commentId) => {
+  return knex('comments').where({ comment_id: commentId }).first();
 };
 
 const create = (newPost) => {
@@ -20,7 +23,7 @@ const create = (newPost) => {
 };
 
 const createComment = (newComment) => {
-  return knex('comments as c').insert(newComment).where({ c });
+  return knex('comments').insert(newComment, '*');
 };
 
 const destroy = (postId) => {
@@ -31,6 +34,10 @@ const update = (updatedPost, postId) => {
   return knex('posts').where({ post_id: postId }).update(updatedPost);
 };
 
+const destroyComment = (commentId) => {
+  return knex('comments').where({ comment_id: commentId }).del();
+};
+
 module.exports = {
   list,
   read,
@@ -38,4 +45,7 @@ module.exports = {
   create,
   destroy,
   update,
+  createComment,
+  destroyComment,
+  readComment,
 };

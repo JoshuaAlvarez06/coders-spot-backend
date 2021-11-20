@@ -18,7 +18,12 @@ router
 router
   .route('/:postId/comments')
   .get(controller.read)
-  // .post(controller.createComment)
+  .post(controller.createComment)
+  .all(methodNotAllowed);
+
+router
+  .route('/:postId/comments/:commentId')
+  .delete(controller.destroyComment)
   .all(methodNotAllowed);
 
 module.exports = router;
