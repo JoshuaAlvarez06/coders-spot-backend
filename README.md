@@ -16,7 +16,7 @@ This project was created using React.js, JavaScript, HTML, CSS, Node.js, Express
 
 ### Login Page
 
-![Login](/src/images/codersspot-login.png)
+![Login](/src/images/codersspot-login2.png)
 
 ### Posts Page
 
